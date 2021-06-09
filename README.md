@@ -5,50 +5,67 @@ This is a first test git repository for a new conversion tool for classical LPJ-
 Reguirements:
 
 * Python 3 
-  * netCDF4
+* netCDF4
 
+<h2> Quick start </h2>
 
 Load conda environment:
- - ?> source activate env.name
-
+```
+source activate env.name
+```
 How to use:
 * Single file
-  - python lpjg2nc.py <in-file.out> <out-file.nc>
+```
+python lpjg2nc.py <in-file.out> <out-file.nc>
+```
+* Run job on compute-nodes
+```
+sbatch nodejob_lpjg2nc.sh <in-file.out> <out-file.nc>
+```
 
-* Run multiple jobs on compute-nodes
-  - sbatch nodejob_lpjg2nc.sh <in-file.out> <out-file.nc>
-
-
-Installation guide:
+<h2> Installation guide: </h2>
 
 * Download a copy:
-  - ?> git clone https://github.com/nierad/lpjg2nc.git
+```
+git clone https://github.com/nierad/lpjg2nc.git
+cd lpjg2nc
+```
 
 * Load Anaconda:
   e.g.
-  - ?> module load Anaconda (use "$ module spider Anaconda" to search for installations)
-* and create an environment:
-  - ?> conda create --name py36 python=3.6
-
+```
+module load Anaconda (use "$ module spider Anaconda" to search for installations)
+```
+* ...and create an environment (py36 is the name here , but can be anything...)
+  **Note:** Conda-environments will use the folder ```.conda``` in your HOME-dir. You might want to link it to some other place, as over time it can become quite large. Any conda-environment will be stored there.
+```
+conda create --name py36 python=3.6
+```
 * Activate environment:
-  - ?> conda activate py36 (on some machines it is $ source activate py36)
-
+```
+conda activate py36 (on some machines it is $ source activate py36)
+```
 * Now install missing packages:
-  - ?> conda install netCDF4
-
+```
+conda install netCDF4
+```
 * Deactivate environment:
-  ?> conda activate py36 (on some machines it is $ source activate py36)
-
+```
+conda deactivate
+```
 That should do!
 
-Running it:
+<h2>Running it </h2>
 
   Activate your environment
-    ?> conda activate py36
-
-  Run jobs 
-    $ python lpjg2nc.py <in-file.out> <out-file.nc>
-
+ ```
+conda activate py36
+```
+  Run jobs e.g.: 
+```
+python lpjg2nc.py <in-file.out> <out-file.nc>
+```
   if you're done
-    $ conda deactivate
-
+```
+conda deactivate
+```
