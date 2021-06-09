@@ -6,3 +6,14 @@ Reguirements:
 
 * Python 3 
   * netCDF4
+
+
+Load environment:
+ - ?> source activate env.name
+
+How to use:
+* Single file
+  - python lpjg2nc.py <in-file.out> <out-file.nc>
+
+* Run multiple jobs on compute-nodes
+  - sbatch nodejob_lpjg2nc.sh <in-file.out> <out-file.nc>
