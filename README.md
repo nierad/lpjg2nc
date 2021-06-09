@@ -1,71 +1,63 @@
 # lpjg2nc
 
-This is a first test git repository for a new conversion tool for classical LPJ-GUESS output (.out-files) to netCDF4. 
+A new conversion tool for classical LPJ-GUESS output (.out-files) to netCDF4. As opposed to out2nc it will create a lat-lon-grid which will be quick-viewable with standard viewers like ncview or panoply. It currently reads all classical LPJ-GUESS outputs (daily, yearly, and both, column and row monthly formats. 
 
-Reguirements:
+Currently, this is a beta-version which will simply convert an out-file into a netCDF4 file which is rechunked for quick viewing.
+
+<h2>Reguirements</h2>
 
 * Python 3 
 * netCDF4
 
-<h2> Quick start </h2>
+<h2>Running it </h2>
 
-Load conda environment:
+Activate your environment
+ ```
+conda activate py36
 ```
-source activate env.name
-```
-How to use:
-* Single file
+Run jobs e.g.: 
+  Single file
 ```
 python lpjg2nc.py <in-file.out> <out-file.nc>
 ```
-* Run job on compute-nodes
+  Run job on compute-nodes
 ```
 sbatch nodejob_lpjg2nc.sh <in-file.out> <out-file.nc>
 ```
+When you're done
+```
+conda deactivate
+```
 
-<h2> Installation guide: </h2>
+<h2> Installation guide </h2>
 
-* Download a copy:
+Download a copy:
 ```
 git clone https://github.com/nierad/lpjg2nc.git
 cd lpjg2nc
 ```
 
-* Load Anaconda:
+Load Anaconda:
   e.g.
 ```
 module load Anaconda (use "$ module spider Anaconda" to search for installations)
 ```
-* ...and create an environment (py36 is the name here , but can be anything...)
+...and create an environment (py36 is the name here , but can be anything...)
   **Note:** Conda-environments will use the folder ```.conda``` in your HOME-dir. You might want to link it to some other place, as over time it can become quite large. Any conda-environment will be stored there.
 ```
 conda create --name py36 python=3.6
 ```
-* Activate environment:
+Activate environment:
 ```
 conda activate py36 (on some machines it is $ source activate py36)
 ```
-* Now install missing packages:
+Now install missing packages:
 ```
 conda install netCDF4
 ```
-* Deactivate environment:
+Deactivate environment:
 ```
 conda deactivate
 ```
 That should do!
 
-<h2>Running it </h2>
-
-  Activate your environment
- ```
-conda activate py36
-```
-  Run jobs e.g.: 
-```
-python lpjg2nc.py <in-file.out> <out-file.nc>
-```
-  if you're done
-```
-conda deactivate
-```
