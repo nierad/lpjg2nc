@@ -8,7 +8,7 @@ Reguirements:
   * netCDF4
 
 
-Load environment:
+Load conda environment:
  - ?> source activate env.name
 
 How to use:
