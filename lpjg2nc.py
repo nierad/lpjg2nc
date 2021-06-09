@@ -14,6 +14,7 @@
 # Second nccopy: 1:10 s -> 8.6 GB
 
 import sys
+import os
 import numpy as np
 import netCDF4 as nc
 
@@ -77,10 +78,10 @@ with open(ifile,"r") as fi:
         lcnt+=1
 
 nyears = ey-sy+1
-
+print(header)
 # Check time-range and output-frequency
 if gcnt/nyears == 1:
-    if header[3] == "Jan" and header[14] == "Dec":
+    if header.split()[3]=="Jan" and header.split()[14]=="Dec":
         freq     = "monthly_col"
         tdimsize = nyears*12
         tunit    = "months since 01 "+str(sy)
@@ -116,7 +117,10 @@ skipcol=4
 if freq == "yearly" or freq == "monthly_col":
     skipcol=3
 
-ovars = header.split()[s:]
+if freq == "monthly_col":
+    ovars = np.array([os.path.basename(os.path.splitext(ifile)[0])[1:]])
+else:
+    ovars = header.split()[skipcol:]
 
 print(" Variables: ",end="")
 for v in ovars:
