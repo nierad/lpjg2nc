@@ -21,20 +21,25 @@ How to use:
 
 Installation guide:
 
-  Download a copy:
+* Download a copy:
     $ git clone https://github.com/nierad/lpjg2nc.git
 
-  Load Anaconda and create an environment:
-    e.g. $ module load Anaconda (use "$ module spider Anaconda" to search for installations)
-    conda create --name py36 python=3.6
+* Load Anaconda:
+  e.g.
+  ?> module load Anaconda (use "$ module spider Anaconda" to search for installations)
+* and create an environment:
+  ?> conda create --name py36 python=3.6
 
-  Activate environment:
-    $ conda activate py36 (on some machines it is $ source activate py36)
+* Activate environment:
+  ?> conda activate py36 (on some machines it is $ source activate py36)
 
-  Now install missing packages:
-    $ conda install netCDF4
+* Now install missing packages:
+  ?> conda install netCDF4
 
-  That should do!
+* Deactivate environment:
+  ?> conda activate py36 (on some machines it is $ source activate py36)
+
+That should do!
 
 Running it:
 
