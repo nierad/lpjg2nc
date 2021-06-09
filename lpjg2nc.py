@@ -80,13 +80,20 @@ nyears = ey-sy+1
 
 # Check time-range and output-frequency
 if gcnt/nyears == 1:
-    freq     = "yearly"
-    tdimsize = nyears
-    tunit    = "yearss since "+str(sy)
-    ncells   = (lcnt-1)/nyears
-    barup    = 1000
+    if header[3] == "Jan" and header[14] == "Dec":
+        freq     = "monthly_col"
+        tdimsize = nyears*12
+        tunit    = "months since 01 "+str(sy)
+        ncells   = (lcnt-1)/nyears
+        barup    = 100
+    else:
+        freq     = "yearly"
+        tdimsize = nyears
+        tunit    = "yearss since "+str(sy)
+        ncells   = (lcnt-1)/nyears
+        barup    = 1000
 elif gcnt/nyears == 12:
-    freq = "monthly"
+    freq = "monthly_row"
     tdimsize = nyears*12
     tunit    = "months since 01 "+str(sy)
     ncells   = (lcnt-1)/(12*nyears)
@@ -104,10 +111,10 @@ ncells = 59191
 
 print("\n Reading "+str(nyears)+" years of "+freq+" data for "+str(np.int(ncells))+" cells from "+ifile)
 
-# Get outputvariables
-s=4
-if freq == "yearly":
-    s=3
+# Get number of columns to skip
+skipcol=4
+if freq == "yearly" or freq == "monthly_col":
+    skipcol=3
 
 ovars = header.split()[s:]
 
@@ -125,7 +132,7 @@ lats = np.array(range(nlat))*0.5- 89.75
 mons = np.array(range(12))+1
 if freq == "yearly":
     tsteps = np.array(range(sy,ey+1,1))
-elif freq == "monthly":
+elif freq == "monthly_col" or freq == "monthly_row":
     tsteps = np.zeros([tdimsize])
     idx=0
     for y in range(sy,ey+1,1):
@@ -165,7 +172,7 @@ longitude.units = "degrees East"
 ovl=[]
 idx=0
 for v in ovars:
-    if freq == "yearly":
+    if freq == "yearly" or freq == "monthly_col":
         ovl.append(ds.createVariable(ovars[idx],'f4',('time','latitude','longitude',),fill_value=nodata_value, chunksizes=(1,360,720,),))
     else:
         ovl.append(ds.createVariable(ovars[idx],'f4',('time','latitude','longitude',),fill_value=nodata_value, chunksizes=(tdimsize,1,1,),))
@@ -183,7 +190,7 @@ latitude[:]  = lats[:]
 time[:]      = tsteps[:]
 
 # Now read the whole file if input is annual
-if freq == "yearly":
+if freq == "yearly" or freq == "monthly_col":
     # Now read whole data in chunks of slabsize cells
     ovtmp=np.zeros([nlat,nlon,tdimsize,len(ovars)])
     ovtmp[:,:,:,:] = np.nan
@@ -198,8 +205,10 @@ if freq == "yearly":
                 lox,lay = latlon2ixjy(np.float(line.split()[1]),np.float(line.split()[0]),nlon,nlat,mtype="single")
                 cnt = 0
         
-            ovtmp[lay,lox,cnt,:] = np.array(line.split()[s:])
-    
+            if freq == "yearly":
+                ovtmp[lay,lox,cnt,:] = np.array(line.split()[skipcol:])
+            else:
+                ovtmp[lay,lox,(12*cnt):(12*(cnt+1)),0] = np.array(line.split()[skipcol:])
             cnt+=1
             tcnt+=1
             if (tcnt) % (tdimsize*barup) == 0:
@@ -226,7 +235,7 @@ else:
                 ovtmp[:,:] = np.nan
                 cnt = 0
 
-            ovtmp[cnt,:] = np.array(line.split()[s:])
+            ovtmp[cnt,:] = np.array(line.split()[skipcol:])
             
     
             if (cnt+1) % tdimsize == 0:
