@@ -1,18 +1,9 @@
 ## module load Anaconda3 first
 # use environment py36: conda  activate py36
 # might have to ?> conda install netCDF4
-# Then rechunk
-# nccopy -c time/20,latitude/36,longitude/72 in.nc out1.nc
-# then 
-# nccopy -c time/1,latitude/180,longitude/360 out1.nc out.nc
 #
-# Stats:
-# Monthly file, 6 Variables:
-# original out-file: 6.1 GB
-# Time to process nc-file: ~9min -> 1.8 GB
-# first nccopy 5:20 min -> 8.6 GB
-# Second nccopy: 1:10 s -> 8.6 GB
-
+# Call as ?> "python ece3lpjg2nc.py <infile.out> <outfile.nc>"
+#
 import sys
 import os
 import numpy as np
