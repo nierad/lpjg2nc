@@ -140,38 +140,38 @@ for v in ovars:
 
 #write coordinates
 time[:]      = tsteps[:]
-lons = lats = np.zeros(nocells)
+lons = np.zeros(nocells)
+lats = np.zeros(nocells)
 print(freq)
 # Now read the whole file if input is annual
 if freq == "yearly" or freq == "monthly_col":
     # Now read whole data in chunks of slabsize cells
     ovtmp=np.zeros([nocells,tdimsize,len(ovars)])
     ovtmp[:,:,:] = np.nan
-    print(ovtmp.shape)
+    
     with open(ifile,"r") as fi:    
         header=fi.readline()
         tcnt=0
-        cnt =0
         ccnt=0
         for line in fi:
             # check for new coordinate
-            if cnt <= nocells: 
-               lons[ccnt] = np.float(line.split()[0])
-               lats[ccnt] = np.float(line.split()[1])
             if freq == "yearly":
                ovtmp[ccnt,tcnt,:] = np.array(line.split()[skipcol:])
             else:
                ovtmp[ccnt,(12*tcnt):(12*(tcnt+1)),0] = np.array(line.split()[skipcol:])
 
+            if ccnt < nocells: 
+               lons[ccnt] = np.float(line.split()[0])
+               lats[ccnt] = np.float(line.split()[1])
+
             ccnt+=1
-            cnt+=1
-            if (cnt % tdimsize*barup) == 0:
+            if (ccnt % tdimsize*barup) == 0:
                     print("\r {:3.0f}% processed".format(tcnt*100/(tdimsize)),end="")
-            if cnt % nocells == 0:
+            if ccnt % nocells == 0:
                 tcnt += 1
 
-    ovl[0][:] = lons[:]
-    ovl[1][:] = lats[:]
+    ovl[0][:] = lats[:]
+    ovl[1][:] = lons[:]
     for x in range(len(ovl)-2):
         for t in range(tdimsize):
             ovl[x+2][t,:] = ovtmp[:,t,x]
@@ -179,32 +179,32 @@ if freq == "yearly" or freq == "monthly_col":
 
 else:
     # Now read whole data in chunks of slabsize tdimsize
-    ovtmp=np.zeros([tdimsize,len(ovars)])
+    ovtmp=np.zeros([tdimsize,nocells,len(ovars)])
     with open(ifile,"r") as fi:    
         header=fi.readline()
         tcnt=0
-        cnt =0
-    
+        ccnt=0
         for line in fi:
             # check for new coordinate
             if tcnt % tdimsize == 0:
-                ovtmp[:,:] = np.nan
                 tcnt = 0
 
-            ovtmp[tcnt,:] = np.array(line.split()[skipcol:])
+            ovtmp[tcnt,ccnt,:] = np.array(line.split()[skipcol:])
             
     
             if (tcnt+1) % tdimsize == 0:
-                ovl[0] = np.float(line.split()[0])
-                ovl[1] = np.float(line.split()[1])
-                for x in range(2,len(ovl),1):
-                    ovl[x][:,cnt] = ovtmp[:,x-2]
-                cnt+=1
+                ovl[0][ccnt] = np.float(line.split()[0])
+                ovl[1][ccnt] = np.float(line.split()[1])
+                ccnt+=1
 
 
             if tcnt % tdimsize*barup == 0:
-                print("\r {:3.0f}% processed".format(cnt*100/(nocells)),end="")
+                print("\r {:3.0f}% processed".format(ccnt*100/(nocells)),end="")
             tcnt+=1
+
+    for x in range(2,len(ovl),1):
+        ovl[x][:,:] = ovtmp[:,:,x-2]
+
 
 print("\r {:3.0f}% processed".format(100))
 print("\n Output written to: "+ofile)
