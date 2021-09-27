@@ -118,7 +118,7 @@ if freq == "yearly" or freq == "monthly_col":
     skipcol=3
 
 if freq == "monthly_col":
-    ovars = np.array([os.path.basename(os.path.splitext(ifile)[0])[1:]])
+    ovars = np.array([os.path.basename(os.path.splitext(ifile)[0])[0:]])
 else:
     ovars = header.split()[skipcol:]
 
