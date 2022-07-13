@@ -13,7 +13,8 @@ Currently, this is a beta-version which will simply convert an out-file into a n
 
 Activate your environment
  ```
-conda activate py36
+conda activate py36 (general)
+source activate py35 (on some machines, e.g. Tetralith)
 ```
 Run jobs e.g.: 
   Single file
