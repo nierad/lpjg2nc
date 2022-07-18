@@ -40,7 +40,7 @@ cd lpjg2nc
 Load Anaconda:
   e.g.
 ```
-module load Anaconda (use "$ module spider Anaconda" to search for installations)
+module load Anaconda (use "module spider Anaconda" to search for installations)
 ```
 ...and create an environment (py36 is the name here , but can be anything...)
   **Note:** Conda-environments will use the folder ```.conda``` in your HOME-dir. You might want to link it to some other place, as over time it can become quite large. Any conda-environment will be stored there.
