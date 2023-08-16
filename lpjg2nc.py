@@ -46,7 +46,7 @@ def latlon2ixjy (LAT,LON,nx,ny,mtype='array'):
         MASK[np.fix(XY[0]).astype(int),np.fix(XY[1]).astype(int)] = 1        
         return MASK.T
     elif mtype == "single":
-        return np.int(XY[0,0]),np.int(XY[1,0])
+        return int(XY[0,0]),int(XY[1,0])
     else:
         print("Wrong mtype in latlon2ixjy. Either 'array' or 'mask'!")
         sys.exit(-1)
@@ -64,7 +64,7 @@ with open(ifile,"r") as fi:
     header=fi.readline()
     lo,la,y=fi.readline().split()[:3]
     lcnt+=2
-    sy=np.int(y)
+    sy=int(y)
     tflag=1
     for line in fi:
         if tflag:
@@ -74,7 +74,7 @@ with open(ifile,"r") as fi:
                 break
             else:
                 gcnt+=1
-                ey=np.int(y)
+                ey=int(y)
         lcnt+=1
 
 nyears = ey-sy+1
@@ -110,7 +110,7 @@ else:
 
 ncells = 59191
 
-print("\n Reading "+str(nyears)+" years of "+freq+" data for "+str(np.int(ncells))+" cells from "+ifile)
+print("\n Reading "+str(nyears)+" years of "+freq+" data for "+str(int(ncells))+" cells from "+ifile)
 
 # Get number of columns to skip
 skipcol=4
@@ -205,14 +205,14 @@ if freq == "yearly" or freq == "monthly_col":
         ccnt=0
         for line in fi:
             # check for new coordinate
-            if cnt % tdimsize == 0:
-                lox,lay = latlon2ixjy(np.float(line.split()[1]),np.float(line.split()[0]),nlon,nlat,mtype="single")
+            if cnt % nyears == 0:
+                lox,lay = latlon2ixjy(float(line.split()[1]),float(line.split()[0]),nlon,nlat,mtype="single")
                 cnt = 0
         
             if freq == "yearly":
                 ovtmp[lay,lox,cnt,:] = np.array(line.split()[skipcol:])
             else:
-                ovtmp[lay,lox,(12*cnt):(12*(cnt+1)),0] = np.array(line.split()[skipcol:])
+                ovtmp[lay,lox,(12*cnt):(12*(cnt+1)),0] = line.split()[skipcol:]
             cnt+=1
             tcnt+=1
             if (tcnt) % (tdimsize*barup) == 0:
@@ -222,7 +222,6 @@ if freq == "yearly" or freq == "monthly_col":
         for t in range(tdimsize):
             ovl[x][t,:,:] = ovtmp[:,:,t,x]
             
-
 else:
     # Now read whole data in chunks of slabsize tdimsize
     ovtmp=np.zeros([tdimsize,len(ovars)])
@@ -234,8 +233,7 @@ else:
         for line in fi:
             # check for new coordinate
             if cnt % tdimsize == 0:
-                #print(np.float(line.split()[1]),np.float(line.split()[0]))
-                lox, lay = latlon2ixjy (np.float(line.split()[1]),np.float(line.split()[0]),nlon,nlat,mtype="single")
+                lox, lay = latlon2ixjy (float(line.split()[1]),float(line.split()[0]),nlon,nlat,mtype="single")
                 ovtmp[:,:] = np.nan
                 cnt = 0
 
