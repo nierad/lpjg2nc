@@ -23,11 +23,11 @@ def latlon2ixjy (LAT,LON,nx,ny,mtype='array'):
     ex = 0
     chk = np.array(LAT,dtype=float,ndmin=1)
     if np.any(chk<-90.) or np.any(chk>90.):
-        print("Excess LAT in latlon2ixjy")
+        print("ERROR: Excess LAT in latlon2ixjy")
         ex = 1
     chk = np.array(LON,dtype=float,ndmin=1)
     if np.any(chk<-180.) or np.any(chk>180.):
-        print("Excess LON in latlon2ixjy")
+        print("ERROR: Excess LON in latlon2ixjy")
         ex = 1
     if ex == 1:
         sys.exit(-1)
@@ -48,7 +48,7 @@ def latlon2ixjy (LAT,LON,nx,ny,mtype='array'):
     elif mtype == "single":
         return int(XY[0,0]),int(XY[1,0])
     else:
-        print("Wrong mtype in latlon2ixjy. Either 'array' or 'mask'!")
+        print("ERROR: Wrong mtype in latlon2ixjy. Either 'array' or 'mask'!")
         sys.exit(-1)
 
 ifile=sys.argv[1]
