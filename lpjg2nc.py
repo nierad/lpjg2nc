@@ -78,7 +78,7 @@ with open(ifile,"r") as fi:
         lcnt+=1
 
 nyears = ey-sy+1
-print(header)
+
 # Check time-range and output-frequency
 if gcnt/nyears == 1:
     if header.split()[3]=="Jan" and header.split()[14]=="Dec":
