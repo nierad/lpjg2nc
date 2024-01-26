@@ -1,4 +1,4 @@
-## module load Anaconda3 first tehehest
+## module load Anaconda3 first
 # use environment py36: conda  activate py36
 # might have to ?> conda install netCDF4
 # Then rechunk
