@@ -1,4 +1,4 @@
-# lpjg2nc TEST
+# lpjg2nc
 
 A new conversion tool for classical LPJ-GUESS output (.out-files) to netCDF4. As opposed to out2nc it will create a lat-lon-grid which will be quick-viewable with standard viewers like ncview or panoply. It currently reads all classical LPJ-GUESS outputs (daily, yearly, and both, column and row monthly formats. 
 
