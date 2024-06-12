@@ -18,10 +18,9 @@ Activate your environment
  ```
 conda activate py36 (or "source activate py36" on some machines, e.g. Tetralith)
 ```
-Run jobs e.g.: 
-  Single file (using any of the provided py-scripts depending on where the data comes from and what you want to do with it)
+Run jobs: 
 ```
-python <*lpjg2nc*.py-script> <in-file.out> <out-file.nc>
+python lpjg2nc.py <in-file.out> <out-file.nc>
 ```
   Run job on compute-nodes
 ```
