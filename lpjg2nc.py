@@ -71,10 +71,10 @@ with open(ifile,"r") as fi:
             lox,lax,y=line.split()[:3]
             if lox != lo or lax != la:
                 tflag=0
+                ey=int(y)
                 break
             else:
                 gcnt+=1
-                ey=int(y)
         lcnt+=1
 
 nyears = ey-sy+1
@@ -237,6 +237,8 @@ else:
                 ovtmp[:,:] = np.nan
                 cnt = 0
 
+            if len( np.array(line.split())) != len(np.array(header.split())):
+                print(line)
             ovtmp[cnt,:] = np.array(line.split()[skipcol:])
             
     
