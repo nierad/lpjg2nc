@@ -5,8 +5,6 @@ A new conversion tool for classical LPJ-GUESS output (.out-files) to netCDF4. As
 <h2>Available Scripts</h2>
 
 * lpjg2nc.py: This will simply convert an LPJ-GUESS out-file into a netCDF4-file, rechunked for quick viewing.
-* ece3lpjg2nc.py: This really only converts the out-file from ECE3 (irregular gaussian) into a netCDF-file. Can be used to convert to regular gaussian, which requires a grid description file which can optained from me (send me an email).
-* ece3lpjg2nc-remap.py: A version updated by Etienne Tourigny which provides a netCDF file with a fixed/sorted order of grid-points and with an option to remap directly to regualar gaussian (requires same grid-description file as above)
 * nodejob_lpjg2nc.sh: A script to run lpjg2nc.py on a node. Take it as a template. 
 
 <h2>Reguirements</h2>
@@ -20,10 +18,9 @@ Activate your environment
  ```
 conda activate py36 (or "source activate py36" on some machines, e.g. Tetralith)
 ```
-Run jobs e.g.: 
-  Single file (using any of the provided py-scripts depending on where the data comes from and what you want to do with it)
+Run jobs: 
 ```
-python <*lpjg2nc*.py-script> <in-file.out> <out-file.nc>
+python lpjg2nc.py <in-file.out> <out-file.nc>
 ```
   Run job on compute-nodes
 ```
