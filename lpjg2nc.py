@@ -56,6 +56,7 @@ ofile=sys.argv[2]
 slabsize=1
 if len(sys.argv)>3:
     slabsize = sys.argv[3]
+nccomplevel=1
 
 #Check file size and time period
 lcnt=0
